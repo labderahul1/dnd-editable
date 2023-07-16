@@ -195,6 +195,8 @@ export function onClick(event: any) {
 
     console.log(' > on_CLICK() ');
 
+    if(!event.target) return;
+
     let targetComponent;
 
     if(event.target.classList.contains('component')){
@@ -224,8 +226,9 @@ export function onClick(event: any) {
     // Update CSS
     targetComponent.classList.add('border-dotted');
 
+    const targetId = event?.target?.id || "";
     // Comment mouseover call and add id here on click
-    if ( !event.target.id ) {
+    if ( !targetId ) {
         event.target.id = uuidv4();
     }
 
@@ -237,9 +240,9 @@ export function onClick(event: any) {
         propsPanel_title.innerHTML = 'Props for ' + targetComponent.id;
     
         // propsPanel_content.innerHTML = '<input id="props_text" data-target="'+event.target.id+'" value="' + event.target.innerHTML + '" />';
-        propsPanel_content.innerHTML = `<input id="props_text" data-target="${event.target.id}" value="${event.target.textContent.trim()}" />`;
+        propsPanel_content.innerHTML = `<input id="props_text" data-target="${targetId}" value="${event.target.textContent.trim()}" />`;
 
-        propsPanel_content.addEventListener('change', (event) => changeInputProps(event, event.target.id));
+        propsPanel_content.addEventListener('change', (event) => changeInputProps(event, targetId));
 
         let propsPanel_input = <HTMLElement>document.querySelector('input#props_text'  );
         propsPanel_input.addEventListener('keyup', (event) => { onKeyUp( event ); });
@@ -251,8 +254,8 @@ export function onClick(event: any) {
 
         propsPanel_title.innerHTML = 'Props for ' + targetComponent.id;
     
-        propsPanel_content.innerHTML = `<input id="props_text" data-target="${event.target.id}" value="${event.target.textContent.trim()}" />`;
-        propsPanel_content.addEventListener('change', (event) => changeInputProps(event, event.target.id));
+        propsPanel_content.innerHTML = `<input id="props_text" data-target="${targetId}" value="${event.target.textContent.trim()}" />`;
+        propsPanel_content.addEventListener('change', (event) => changeInputProps(event, targetId));
     }
 
     event.stopPropagation();
